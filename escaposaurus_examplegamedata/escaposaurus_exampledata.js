@@ -22,10 +22,10 @@
 		var contactVideoRoot = videoRoot+"contactVideo/" ;
 
 		/*full path to intro / outro video*/
-		var missionVideoPath = videoRoot+"introVideo/intro1.mp4" ;
-		var introVideoPath = videoRoot+"introVideo/intro2.mp4" ;
-		var missingVideoPath = videoRoot+"contactVideo/missing/final.mp4" ;
-		var epilogueVideoPath = videoRoot+"epilogueVideo/epiloguecredit.mp4" ;
+		var missionVideoPath = videoRoot+"intro1.mp4" ;
+		var introVideoPath = videoRoot+"intro2.mp4" ;
+		var missingVideoPath = videoRoot+"final.mp4" ;
+		var epilogueVideoPath = videoRoot+"epiloguecredit.mp4" ;
 
 		/*udisk JSON path*/
 		var udiskRoot = gameDataRoot+"udisk/" ;
@@ -39,7 +39,7 @@
 	  		"folders":
 		  		[
 		  		{"foldername":"armement",
-				  	"files":["arme1.txt"]
+				  	"files":[]
 				},
 				{"foldername":"dictionnaire",
 				  	"files":[]
@@ -50,23 +50,26 @@
 			  	{"foldername":"groupes", "password":"nom_region","sequence":0,
 			  		"files":[],
 			  		"folders":[{
-						"foldername":"camp",
-						"files":[],"password":"nom_groupe","sequence":1
+						"foldername":"camp","password":"zelu","sequence":1,
+						"files":[]
 					}]
-			  	}
+			  	},
+				{"foldername":"gps", "password":"gps","sequence":2,
+					"files":["coordonnees.txt"]
+				}
 		 		],
 			"files":[]}
 		} ;
 
-		var gameTitle = "Escaposaurus Scenario Exemple" ;
-		var gameDescriptionHome = "Ceci est une courte aventure d'exemple pour montrer ce que le framework Escaposaurus permet facilement de réaliser.<br/>Le code source est téléchargeable sur <a href='https://github.com/RedNaK/escaposaurus' target='_blank'>GitHub</a>" ;
-		var gameMissionCall = "Voici la vidéo qu'Albert a envoyé à votre bureau d'informaticien spécialisé en récupération de données" ;
+		var gameTitle = "Mission loup" ;
+		var gameDescriptionHome = "<br/>Deux touristes ont été témoin d un braconnage et ont trouvé une clé usb sur les lieux de lanimal enlevé. Votre mission, si vous lacceptez, est danalyser le contenu de cette clé pour retrouver le braconnier et sauver lanimal." ;
+		var gameMissionCall = "Voici la vidéo que Lydia votre supérieure a envoyé à votre bureau d'informaticien spécialisé en récupération de données" ;
 		var gameMissionAccept = "&raquo;&raquo; Accepter la mission et charger la clé USB dans le serveur virtuel (JOUER) &laquo;&laquo;" ;
 
-		var gameCredit = "Un jeu conçu et réalisé par : <br/>Stéphanie Mader" ;
+		var gameCredit = "Un jeu conçu et réalisé par : <br/>Groupe 1" ;
 		var gameThanks = "Remerciements : <br/> ;)" ;
 
-		var OSName = "Special InformaticienOS 3.11- diskloaded: Escaposaurus_Example" ;
+		var OSName = "Special RangerOS 3.11- diskloaded: Mission Loup" ;
 		var explorerName = "USB DISK EXPLORER" ;
 		var callerAppName = "CALL CONTACT" ;
 
@@ -74,19 +77,19 @@
 		var titleData = {} ;
 		titleData.introTitle = "INTRODUCTION" ;
 		titleData.epilogueTitle = "EPILOGUE" ;
-		titleData.callTitle = "APPEL EN COURS..." ;
+		titleData.callTitle = "APPEL EN COURS..." ;	
 
 		/*change of caller app prompt for each sequence*/
-		var promptDefault = "Rien à demander, ne pas les déranger." ;
+		var promptDefault = "Pas disponible pour le moment." ;
 		var prompt = [] ;
-		prompt[0] = "Prendre contact" ;
-		prompt[1] = "" ;
-		prompt[2] = "" ;
-		prompt[3] = "Envoyer la carte" ;
-		prompt[4] = "Appeler Nathalie pour savoir où en sont les secours." ;
+		prompt[0] = "Prendre contact avec les touristes" ;
+		prompt[1] = "Trouver la région ou les braconniers sont situes" ;
+		prompt[2] = "Comprendre qui sont les braconniers" ;
+		prompt[3] = "Trouver les coordonnées GPS" ;
+		prompt[4] = "" ;
 
 		/*when the sequence number reach this, the player win, the missing contact is added and the player can call them*/
-		var sequenceWin = 4 ;
+		var sequenceWin = 3 ;
 
 		/*before being able to call the contacts, the player has to open the main clue of the sequence as indicated in this array*/
 		/*if you put in the string "noHint", player will be able to immediatly call the contact at the beginning of the sequence*/
@@ -101,28 +104,27 @@
 	their img need to be placed in their video folder, username is their displayed name
 		*/
 		var normalContacts = [] ;
-		normalContacts[0] = {"vid" : "Denise", "vod_folder" : "", "username" : "Denise (guide)", "canal" : "video", "avatar" : "denise_avatar.jpg"} ;
-		normalContacts[1] = {"vid" : "Nathalie", "vod_folder" : "", "username" : "Nathalie (guide)", "canal" : "video", "avatar" : "nata_avatar.jpg"} ;
+		normalContacts[0] = {"vid" : "Nancy", "vod_folder" : "", "username" : "Nancy (garde forestiere)", "canal" : "video", "avatar" : "nancy.png"} ;
+		normalContacts[1] = {"vid" : "Touristes", "vod_folder" : "", "username" : "Jean-Michel, Marie (touristes)", "canal" : "video", "avatar" : "touristes.png"} ;
 
 		/*second part of the list, contact that can help the player*/
 		var helperContacts = [] ;
-		helperContacts[0] = {"vid" : "Albert", "vod_folder" : "", "username" : "Albert (pour avoir un indice)", "canal" : "txt", "avatar" : "albert.png", "bigAvatar" : "albertbig.png"} ;
-		/*helperContacts[1] = {"vid" : "Lou", "username" : "Lou (pour avoir un deuxième indice) - par message", "canal" : "txt", "avatar" : "Lou_opt.jpg", "bigAvatar" : "avatarHelper2Big.gif"} ;*/
+		helperContacts[0] = {"vid" : "Lydia", "vod_folder" : "", "username" : "Lydia (pour avoir un indice)", "canal" : "txt", "avatar" : "lydia.png", "bigAvatar" : "lydiabig.png"} ;
 
 
 		/*ce qui apparait quand on trouve le dernier élément du disque dur*/
-		finalStepAdded = "ID du GPS transmise aux secours." ;
+		finalStepAdded = "Coordonnées GPS transmises aux membres anti-braconnages." ;
 
 		/*the last call, it can be the person we find in the end or anyone else we call to end the quest, allows the game to know it is the final contact that is called and to proceed with the ending*/
-		var missingContact = {"vid" : "missing", "vod_folder" : "","username" : "Nathalie",  "canal" : "video", "avatar" : "nata_avatar.jpg"} ;
+		var missingContact = {"vid" : "missing", "vod_folder" : "","username" : "lydia",  "canal" : "video", "avatar" : "lydia.png"} ;
 
 		/*Lou only send text message, they are stored here*/
 		var tips = {} ;
-		tips['Albert'] = [] ;
-		tips['Albert'][0] = "Je peux pas répondre à votre appel. Mais je peux vous répondre par écrit. Donc vous cherchez le surnom d'un guide ? Je crois que les contacts sont des guides justement, essayez peut-être de les appeler." ;
-		tips['Albert'][1] = "" ;
-		tips['Albert'][2] = "" ;
-		tips['Albert'][3] = "Ah zut, un dossier verouillé sans infos dans scan mémo ? Y'a forcément un truc mnémotechnique facile à retenir ou retrouver. Les guides en disent quoi ?" ;
+		tips['Lydia'] = [] ;
+		tips['Lydia'][0] = "Je ne peux pas répondre à votre appel." ;
+		tips['Lydia'][1] = "" ;
+		tips['Lydia'][2] = "" ;
+		tips['Lydia'][3] = "" ;
 
 
 		/*text for the instruction / solution windows*/
